@@ -2,7 +2,6 @@ import time
 
 class TicTacToe:
     def __init__(self):
-        #self.table = np.full((3, 3), " ")
         self.table = list(range(0,9))
         self.playerX = True
         self.count_plays = 0
@@ -11,55 +10,39 @@ class TicTacToe:
         for i in range(0,9):
             self.table[i] = str(i)
 
-        #count = 0
-        #for a in range(0,3):
-        #    for b in range(0,3):
-        #        self.table[a, b] = str(count)
-        #        count += 1
-    
+        #   Make a time to don't expend the limits tokens
+        self.time_sleep = 20
+
     def printTable(self):
         text = ""
         for i in range(0,9):
             if (i == 3 or i == 6): text += "\n-----------\n"
             text += ("| " if (i == 1 or i == 4 or i == 7) else " ") + self.table[i] + (" |" if (i == 1 or i == 4 or i == 7) else " ")
         return text
-
-        #for a in range(0,3):
-        #    for b in range(0,3):
-        #        text += ("| " if b == 1 else " ") + self.table[a, b] + (" |" if b == 1 else " ") 
-        #    if a == 2: break
-        #    text+= "\n-----------\n"
         
 
     def winCondition(self):
-        #if(self.table[0, 0] == self.table[0, 1] == self.table[0, 2] != " "):
         if self.table[0] == self.table[1] == self.table[2]:
             return True
         
-        #if(self.table[1, 0] == self.table[1, 1] == self.table[1, 2] != " "):
         if self.table[3] == self.table[4] == self.table[5]:
             return True
         
-        #if(self.table[2, 0] == self.table[2, 1] == self.table[2, 2] != " "):
         if self.table[6] == self.table[7] == self.table[8]:
             return True
         
         if self.table[0] == self.table[3] == self.table[6]:
             return True
         
-        #if(self.table[1, 0] == self.table[1, 1] == self.table[1, 2] != " "):
         if self.table[1] == self.table[4] == self.table[7]:
             return True
         
-        #if(self.table[2, 0] == self.table[2, 1] == self.table[2, 2] != " "):
         if self.table[2] == self.table[5] == self.table[8]:
             return True
 
-        #if(self.table[0, 0] == self.table[1, 1] == self.table[2, 2] != " "):
         if self.table[0] == self.table[4] == self.table[8]:
             return True
         
-        #if(self.table[0, 2] == self.table[1, 1] == self.table[2, 1] != " "):
         if self.table[2] == self.table[4] == self.table[6]:
             return True
         
@@ -132,21 +115,19 @@ class TicTacToe:
         input_: is a string that need to bee a interger between '0' a '8' and represent a position that is not 'X' or 'O'.
         Return play's status and vizualize the boward.
         """
-        time.sleep(20)
+        time.sleep(self.time_sleep)
 
         try:
             num = int(input_)
             if 0 <= num <= 8:
                 return self.inputPlay(num)
             else:
-                #print("Número fora do intervalo permitido (0-8).")
                 return {
                     "status": "error", 
                     "input": "input " + input_ + " need to be a integer between 0 and 8"
                 }
         
         except ValueError:
-            #print("Erro: A entrada não é um número válido.")
             return {
                     "status": "error", 
                     "input": "The" + input_ + "is not valid"
@@ -154,7 +135,6 @@ class TicTacToe:
         
     def inputPlay(self, value):
         if self.table[value] in ("X", "O"):
-            # "Já está preenchido"
             return {
                 "status": "error", 
                 "input": "Position is already placed, try choose another position"
@@ -163,14 +143,12 @@ class TicTacToe:
         self.table[value] = "X" if self.playerX else "O"
         
         if self.winCondition():
-            #print("Player X venceu!!" if self.player1 else "Player O venceu!!")
             return {
                 "status": "success", 
                 "win": ("Human" if self.player_one == self.player_turn else "AI") + " win"
             }
         
         if self.drawCondition():
-            #print("Draw")
             return {
                 "status": "success", 
                 "win": "Draw"
